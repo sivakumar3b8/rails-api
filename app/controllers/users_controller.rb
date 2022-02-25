@@ -4,8 +4,8 @@ class UsersController < ApplicationController
   # GET /users
   def index
     @users = User.all
+    render json: @users
 
-    render json: @users 
   end
 
   # GET /users/1
@@ -40,9 +40,11 @@ class UsersController < ApplicationController
 
   def user_search
     search_query = request.params[:query]
-    users_listed = User.any_of({firstname: /#{search_query}/},{lastname: /#{search_query}/},{email: /#{search_query}/}).entries
+    @users = User.where("first_name like ?", "%#{search_query}%")
+
+    # users_listed = User.any_of({firstname: /#{search_query}/},{lastname: /#{search_query}/},{email: /#{search_query}/}).entries
     @output = []
-    users_listed.each do |user|
+    @users.each do |user|
       user.attributes.each do |key,value|
         if value =~ /#{search_query}/
           @output << value

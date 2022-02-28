@@ -41,7 +41,7 @@ RSpec.describe "Users", type: :request do
 
   #Delete action
   describe "/users/1" do
-    it 'update action has status  code 200' do
+    it 'Destroy action has status  code 200' do
       delete "/users/#{@user.id}", params: {user: {first_name: "first", last_name: "last", email: "sample@gmail.com"} }
       expect(response).to have_http_status(204)
     end

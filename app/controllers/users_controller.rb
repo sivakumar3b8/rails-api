@@ -37,20 +37,10 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
   end
-
-  def user_search
-    search_query = request.params[:query]
-    @users = User.where("first_name like ?", "%#{search_query}%")
-
-    # users_listed = User.any_of({firstname: /#{search_query}/},{lastname: /#{search_query}/},{email: /#{search_query}/}).entries
-    @output = []
-    @users.each do |user|
-      user.attributes.each do |key,value|
-        if value =~ /#{search_query}/
-          @output << value
-        end
-      end
-    end
+def user_search
+    search_typehead = params[:q]
+    @search = User.any_of({first_name: /#{search_typehead}/}, {last_name: /#{search_typehead}/}, {email: /#{search_typehead}/})
+    render json: @search
   end
 
 

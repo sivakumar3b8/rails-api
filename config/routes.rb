@@ -1,9 +1,4 @@
 Rails.application.routes.draw do
-
-  resources :users do 
-    collection do
-      get :user_search
-     end
-  end
-
+ resources :users 
+  get 'user_search/:q', to: 'users#user_search'
 end
